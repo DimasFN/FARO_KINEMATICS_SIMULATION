@@ -61,25 +61,39 @@ void IK(){
     float L_Yaw=50.1;
     
     //Koordinat Tangan Kanan
-    float R_X_Hand=156.0;
-    float R_Y_Hand=0.0;
-    float R_Z_Hand=21.0;
+    float R_X_Hand=10.01;
+    float R_Y_Hand=10.01;
+    float R_Z_Hand=10.01;
     //Koordinat Tangan Kiri
-    float L_X_Hand=110.1;
-    float L_Y_Hand=10.0;
-    float L_Z_Hand=50.1;
+    float L_X_Hand=10.01;
+    float L_Y_Hand=10.01;
+    float L_Z_Hand=10.01;
     
+    //Spec link kaki kanan
     float R_XZ=0;
     float R_L2=78.0;
     float R_L1=78.0;
     float R_L1a=0;
     float R_L2a=0;
-    
+    //spec link kaki kiri
     float L_XZ;
     float L_L2=78.0;
     float L_L1=78.0;
     float L_L1a=0;
     float L_L2a=0;
+    
+    //spec link tangan kanan
+    float R_ZY_Hand=0;
+    float R_L2_Hand=78.0;
+    float R_L1_Hand=78.0;
+    float R_L1a_Hand=0;
+    float R_L2a_Hand=0;
+    //spec link tangan kiri
+    float L_ZY_Hand=0;
+    float L_L2_Hand=78.0;
+    float L_L1_Hand=78.0;
+    float L_L1a_Hand=0;
+    float L_L2a_Hand=0;
     
     float R_THETA_1=0;
     float R_THETA_1a=0;
@@ -95,6 +109,15 @@ void IK(){
     float R_THETA_7=0;
     float R_THETA_5=0;
     float R_THETA_4=0;
+    float R_THETA_8=0;
+    float R_THETA_8a=0;
+    float R_THETA_8b=0;
+    float R_THETA_8c=0;
+    float R_THETA_9=0;
+    float R_THETA_9a=0;
+    float R_THETA_9b=0;
+    float R_THETA_9c=0;
+    float R_THETA_9d=0;
     
     float L_THETA_1=0;
     float L_THETA_1a=0;
@@ -110,6 +133,15 @@ void IK(){
     float L_THETA_7=0;
     float L_THETA_5=0;
     float L_THETA_4=0;
+    float L_THETA_8=0;
+    float L_THETA_8a=0;
+    float L_THETA_8b=0;
+    float L_THETA_8c=0;
+    float L_THETA_9=0;
+    float L_THETA_9a=0;
+    float L_THETA_9b=0;
+    float L_THETA_9c=0;
+    float L_THETA_9d=0;
 
     //Text R_X_Leg
     textSize(10);
@@ -308,6 +340,7 @@ void IK(){
     R_THETA_4=atan2(R_Y,R_Z);
     R_THETA_5=R_THETA_4;
     
+    //Manipulasi Penampakan Ukuran Link Kaki Kanan 
     R_THETA_3c=atan2(R_Z,R_X);
     R_THETA_3d=PI-(R_THETA_3c+R_THETA_3a);
     R_THETA_1c=radians(90)-R_THETA_1;
@@ -341,12 +374,53 @@ void IK(){
     L_THETA_4=atan2(L_Y,L_Z);
     L_THETA_5=L_THETA_4;
     
+    //Manipulasi Penampakan Ukuran Link Kaki Kiri
     L_THETA_3c=atan2(L_Z,L_X);
     L_THETA_3d=PI-(L_THETA_3c+L_THETA_3a);
     L_THETA_1c=radians(90)-L_THETA_1;
     
     L_L1a=sin(L_THETA_1c)*L_L1;
     L_L2a=sin(L_THETA_3d)*L_L2;
+    
+    //Rumus IK Tangan Kiri
+    L_THETA_8b=atan2(L_Y_Hand,L_Z_Hand);
+    L_THETA_8a=acos( ((L_L1_Hand*L_L1_Hand) + (L_ZY_Hand*L_ZY_Hand) - (L_L2_Hand*L_L2_Hand) )
+                                            /
+                                 (2*L_L1_Hand*L_ZY_Hand)
+                                 );
+    L_THETA_8=L_THETA_8a+L_THETA_8b;
+    L_THETA_9=PI-L_THETA_9a;
+    
+    //Manipulasi Penampakan Ukuran Link Tangan Kiri
+    L_THETA_9c=acos(( sq(L_L2_Hand) + sq(L_ZY_Hand) - sq(L_L1_Hand))
+                                          /
+                               (2*L_L2_Hand*L_ZY_Hand)
+                               );
+    L_THETA_9d=atan2(L_Z_Hand,L_Y_Hand);
+    L_THETA_9b=radians(90)-L_THETA_9c-L_THETA_9d;
+    L_THETA_8c=radians(90)-L_THETA_8;
+    L_L1a_Hand=sin(L_THETA_8c)*L_L1_Hand;
+    L_L2a_Hand=cos(L_THETA_9b)*L_L2_Hand;
+    
+    //Rumus IK Tangan Kanan
+    R_THETA_8b=atan2(R_Y_Hand,R_Z_Hand);
+    R_THETA_8a=acos( ((R_L1_Hand*R_L1_Hand) + (R_ZY_Hand*R_ZY_Hand) - (R_L2_Hand*R_L2_Hand) )
+                                            /
+                                 (2*R_L1_Hand*R_ZY_Hand)
+                                 );
+    R_THETA_8=R_THETA_8a+R_THETA_8b;
+    R_THETA_9=PI-R_THETA_9a;
+    
+    //Manipulasi Penampakan Ukuran Link Tangan Kiri
+    R_THETA_9c=acos(( sq(R_L2_Hand) + sq(R_ZY_Hand) - sq(R_L1_Hand))
+                                          /
+                               (2*R_L2_Hand*R_ZY_Hand)
+                               );
+    R_THETA_9d=atan2(R_Z_Hand,R_Y_Hand);
+    R_THETA_9b=radians(90)-R_THETA_9c-R_THETA_9d;
+    R_THETA_8c=radians(90)-R_THETA_8;
+    R_L1a_Hand=sin(R_THETA_8c)*R_L1_Hand;
+    R_L2a_Hand=cos(R_THETA_9b)*R_L2_Hand;
     
     //Tampilan sudut tiap servo-----------------------------------------------
     pushMatrix();
@@ -408,15 +482,15 @@ void IK(){
     strokeWeight(3);
     stroke(200,200,200);
     translate(0,25);
-    line(0,0,0,50);
+    line(0,0,0,L_L1a_Hand);
     strokeWeight(7);
     stroke(200,20,200);
     point(0, 0);
     //L_LOWER_ARM
     strokeWeight(3);
     stroke(200,200,200);
-    translate(0,50);
-    line(0,0,0,50);
+    translate(0,L_L1a_Hand);
+    line(0,0,0,L_L2a_Hand);
     strokeWeight(7);
     stroke(200,20,200);
     point(0, 0);
@@ -528,15 +602,15 @@ void IK(){
     translate(0,25);
     strokeWeight(3);
     stroke(200,200,200);
-    line(0,0,0,50);
+    line(0,0,0,R_L1a_Hand);
     strokeWeight(7);
     stroke(200,20,200);
     point(0, 0);
     //R_LOWER_ARM
     strokeWeight(3);
     stroke(200,200,200);
-    translate(0,50);
-    line(0,0,0,50);
+    translate(0,R_L1a_Hand);
+    line(0,0,0,R_L2a_Hand);
     strokeWeight(7);
     stroke(200,20,200);
     point(0, 0);
@@ -661,7 +735,7 @@ void IK(){
     strokeWeight(3);
     stroke(200,200,200);
     translate(25,25);
-    rotate(0.5);//---sudut----
+    rotate(R_THETA_8);//---sudut----
     line(0,0,0,50);
     strokeWeight(7);
     stroke(200,20,200);
@@ -670,7 +744,7 @@ void IK(){
     strokeWeight(3);
     stroke(200,200,200);
     translate(0,50);
-    rotate(0.5);//---sudut----
+    rotate(R_THETA_9);//---sudut----
     line(0,0,0,50);
     strokeWeight(7);
     stroke(200,20,200);
@@ -690,7 +764,7 @@ void IK(){
     strokeWeight(3);
     stroke(200,200,200);
     translate(-25,25);
-    rotate(0.5);//---sudut----
+    rotate(L_THETA_8);//---sudut----
     line(0,0,0,50);
     strokeWeight(7);
     stroke(200,20,200);
@@ -699,7 +773,7 @@ void IK(){
     strokeWeight(3);
     stroke(200,200,200);
     translate(0,50);
-    rotate(0.5);//---sudut----
+    rotate(L_THETA_9);//---sudut----
     line(0,0,0,50);
     strokeWeight(7);
     stroke(200,20,200);
