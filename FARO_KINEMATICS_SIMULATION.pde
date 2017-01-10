@@ -110,7 +110,7 @@ void IK(){
     float L_THETA_7=0;
     float L_THETA_5=0;
     float L_THETA_4=0;
-//dddddddddddddddd
+
     //Text R_X_Leg
     textSize(10);
     fill(0, 202, 253);
