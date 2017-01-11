@@ -43,7 +43,7 @@ void field(){
 
 void IK(){
     //Koordinat Kaki Kanan
-    float R_X=60.0;
+    float R_X=10.0;
     float R_Y=10.0;
     float R_Z=100.0;
     //Rotasi Kaki Kanan
@@ -54,20 +54,20 @@ void IK(){
     //Koordinat Kaki Kiri
     float L_X=10.1;
     float L_Y=-10.0;
-    float L_Z=150.1;
+    float L_Z=100.1;
     //Rotasi Kaki Kiri
-    float L_Roll=110.1;
+    float L_Roll=10.1;
     float L_Pitch=10.0;
     float L_Yaw=50.1;
     
     //Koordinat Tangan Kanan
-    float R_X_Hand=0.01;
-    float R_Y_Hand=50.01;
-    float R_Z_Hand=75.01;
+    float R_X_Hand=25.01;
+    float R_Y_Hand=30.01;
+    float R_Z_Hand=79.01;
     //Koordinat Tangan Kiri
-    float L_X_Hand=0.0;
-    float L_Y_Hand=50.0;
-    float L_Z_Hand=75.0;
+    float L_X_Hand=25.0;
+    float L_Y_Hand=30.0;
+    float L_Z_Hand=79.01;
     
     //Spec link kaki kanan
     float R_XZ=0;
@@ -88,12 +88,16 @@ void IK(){
     float R_L1_Hand=50.0;
     float R_L1a_Hand=0;
     float R_L2a_Hand=0;
+    float R_L1b_Hand=0;
+    float R_L2b_Hand=0;
     //spec link tangan kiri
     float L_ZY_Hand=0;
     float L_L2_Hand=50.0;
     float L_L1_Hand=50.0;
     float L_L1a_Hand=0;
     float L_L2a_Hand=0;
+    float L_L1b_Hand=0;
+    float L_L2b_Hand=0;
     
     float R_THETA_1=0;
     float R_THETA_1a=0;
@@ -107,6 +111,8 @@ void IK(){
     float R_THETA_3c=0;
     float R_THETA_3d=0;
     float R_THETA_7=0;
+    float R_THETA_7a=0;
+    float R_THETA_7b=0;
     float R_THETA_5=0;
     float R_THETA_4=0;
     float R_THETA_8=0;
@@ -131,6 +137,8 @@ void IK(){
     float L_THETA_3c=0;
     float L_THETA_3d=0;
     float L_THETA_7=0;
+    float L_THETA_7a=0;
+    float L_THETA_7b=0;
     float L_THETA_5=0;
     float L_THETA_4=0;
     float L_THETA_8=0;
@@ -344,11 +352,10 @@ void IK(){
     R_THETA_3c=atan2(R_Z,R_X);
     R_THETA_3d=PI-(R_THETA_3c+R_THETA_3a);
     R_THETA_1c=radians(90)-R_THETA_1;
-    
     R_L1a=sin(R_THETA_1c)*R_L1;
-    R_L2a=sin(R_THETA_3d)*R_L2;    
+    R_L2a=sin(R_THETA_3d)*R_L2;
     
-    //RUMUS IK KAKI KIRI
+    //RUMUS IK KAKI KIRI------------------------
     L_Z=L_Z-21;
     L_XZ=sqrt((L_X*L_X)+(L_Z*L_Z));
     L_THETA_1a = acos(
@@ -378,11 +385,10 @@ void IK(){
     L_THETA_3c=atan2(L_Z,L_X);
     L_THETA_3d=PI-(L_THETA_3c+L_THETA_3a);
     L_THETA_1c=radians(90)-L_THETA_1;
-    
     L_L1a=sin(L_THETA_1c)*L_L1;
     L_L2a=sin(L_THETA_3d)*L_L2;
     
-    //Rumus IK Tangan Kiri
+    //Rumus IK Tangan Kiri------------------
     L_ZY_Hand=sqrt((L_Z_Hand*L_Z_Hand)+(L_Y_Hand*L_Y_Hand));
     L_THETA_8b=atan2(L_Y_Hand,L_Z_Hand);
     L_THETA_8a=acos( ( (L_L1_Hand*L_L1_Hand) + (L_ZY_Hand*L_ZY_Hand) - (L_L2_Hand*L_L2_Hand) )
@@ -395,6 +401,7 @@ void IK(){
                                                (2*L_L2_Hand*L_L1_Hand)
                                                );
     L_THETA_9=PI-L_THETA_9a;
+    L_THETA_7=-radians(90)+atan2(L_Z_Hand,L_X_Hand);
     //Manipulasi Penampakan Ukuran Link Tangan Kiri
     L_THETA_9c=acos(( (L_L2_Hand*L_L2_Hand) + (L_ZY_Hand*L_ZY_Hand) - (L_L1_Hand*L_L1_Hand))
                                           /
@@ -405,6 +412,10 @@ void IK(){
     L_THETA_8c=radians(90)-L_THETA_8;
     L_L1a_Hand=sin(L_THETA_8c)*L_L1_Hand;
     L_L2a_Hand=cos(L_THETA_9b)*L_L2_Hand;
+    L_THETA_7a=radians(90)-L_THETA_7;
+    L_THETA_7b=L_THETA_7a;
+    L_L1b_Hand=sin(L_THETA_7a)*L_L1a_Hand;
+    L_L2b_Hand=sin(L_THETA_7b)*L_L2a_Hand;
     
     //Rumus IK Tangan Kanan
     R_ZY_Hand=sqrt((R_Z_Hand*R_Z_Hand)+(R_Y_Hand*R_Y_Hand));
@@ -419,7 +430,8 @@ void IK(){
                                                (2*R_L2_Hand*R_L1_Hand)
                                                );
     R_THETA_9=-(PI-R_THETA_9a);
-    //Manipulasi Penampakan Ukuran Link Tangan Kiri
+    R_THETA_7=-radians(90)+atan2(R_Z_Hand,R_X_Hand);
+    //Manipulasi Penampakan Ukuran Link Tangan Kanan
     R_THETA_9c=acos(( (R_L2_Hand*R_L2_Hand) + (R_ZY_Hand*R_ZY_Hand) - (R_L1_Hand*R_L1_Hand))
                                           /
                                (2*R_L2_Hand*R_ZY_Hand)
@@ -429,6 +441,11 @@ void IK(){
     R_THETA_8c=radians(90)-R_THETA_8;
     R_L1a_Hand=sin(R_THETA_8c)*R_L1_Hand;
     R_L2a_Hand=cos(R_THETA_9b)*R_L2_Hand;
+    R_THETA_7a=radians(90)-R_THETA_7;
+    R_THETA_7b=R_THETA_7a;
+    R_L1b_Hand=sin(R_THETA_7a)*R_L1a_Hand;
+    R_L2b_Hand=sin(R_THETA_7b)*R_L2a_Hand;
+    
     
     //Tampilan sudut tiap servo-----------------------------------------------
     pushMatrix();
@@ -480,7 +497,7 @@ void IK(){
     strokeWeight(3);
     stroke(200,200,200);
     translate(0,25);
-    rotate(0);//---sudut----
+    rotate(L_THETA_7);//---sudut----
     //L_SHOULDER
     line(0,0,0,25);
     strokeWeight(7);
@@ -600,7 +617,7 @@ void IK(){
     strokeWeight(3);
     stroke(200,200,200);
     translate(0,25);
-    rotate(0);//---sudut----
+    rotate(R_THETA_7);//---sudut----
     //R_SHOULDER
     line(0,0,0,25);
     strokeWeight(7);
@@ -674,7 +691,7 @@ void IK(){
     //R_Ankle_Link-------------------
     strokeWeight(3);
     stroke(200,200,0);
-    translate(0, 78);
+    translate(0, R_L2a);
     rotate(-R_THETA_5);//---sudut----
     line(0,0,0, 21);
     strokeWeight(7);
@@ -744,16 +761,16 @@ void IK(){
     stroke(200,200,200);
     translate(25,25);
     rotate(L_THETA_8);//---sudut----
-    line(0,0,0,50);
+    line(0,0,0,L_L1b_Hand);
     strokeWeight(7);
     stroke(200,20,200);
     point(0, 0);
     //L_LOWER_ARM
     strokeWeight(3);
     stroke(200,200,200);
-    translate(0,50);
+    translate(0,L_L1b_Hand);
     rotate(L_THETA_9);//---sudut----
-    line(0,0,0,50);
+    line(0,0,0,L_L2b_Hand);
     strokeWeight(7);
     stroke(200,20,200);
     point(0, 0);
@@ -773,16 +790,16 @@ void IK(){
     stroke(200,200,200);
     translate(-25,25);
     rotate(R_THETA_8);//---sudut----
-    line(0,0,0,50);
+    line(0,0,0,R_L1b_Hand);
     strokeWeight(7);
     stroke(200,20,200);
     point(0, 0);
     //R_LOWER_ARM
     strokeWeight(3);
     stroke(200,200,200);
-    translate(0,50);
+    translate(0,R_L1b_Hand);
     rotate(R_THETA_9);//---sudut----
-    line(0,0,0,50);
+    line(0,0,0,R_L2b_Hand);
     strokeWeight(7);
     stroke(200,20,200);
     point(0, 0);
