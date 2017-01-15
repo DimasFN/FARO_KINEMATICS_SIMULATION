@@ -1,4 +1,25 @@
 //FARO_SIMULATION
+//Triangle Angle function returns angle in radians
+float TRIANGLE_ANGLE(float a, float b, float c){
+    float x=acos(
+                        ( (a*a)+(b*b)-(c*c) )
+                                   /
+                             (2*a*b)
+                             );
+                   return x;          
+}
+
+//Triangle Hypotenuse function returns length
+float TRIANGLE_HYPOTENUSE(float a, float b){
+  float x=sqrt((a*a)+(b*b));
+  return x;
+}
+
+//Triangle_Lenght function returns lenght
+float TRIANGLE_LENGHT(float a, float b, float Theta_C){
+  float x=sqrt((a*a)+(b*b)-(2*a*b*cos(Theta_C)));
+  return x;
+}
 
 void setup() {
   size(1180, 620);
@@ -43,25 +64,25 @@ void field(){
 
 void IK(){
     //Koordinat Kaki Kanan
-    float R_X=10.0;
-    float R_Y=10.0;
-    float R_Z=100.0;
+    float R_X=55.0;
+    float R_Y=50.0;
+    float R_Z=155.0;
     //Rotasi Kaki Kanan
     float R_Roll=0.0;
-    float R_Pitch=30.0;
+    float R_Pitch=0.0;
     //float R_Yaw=0.0;
     
     //Koordinat Kaki Kiri
-    float L_X=10.1;
-    float L_Y=-10.0;
-    float L_Z=100.1;
+    float L_X=-50.1;
+    float L_Y=-0.0;
+    float L_Z=120.1;
     //Rotasi Kaki Kiri
     float L_Roll=0.0;
     float L_Pitch=0.0;
     //float L_Yaw=0.0;
     
     //Koordinat Tangan Kanan
-    float R_X_Hand=25.01;
+    float R_X_Hand=-25.01;
     float R_Y_Hand=30.01;
     float R_Z_Hand=79.01;
     //Koordinat Tangan Kiri
@@ -327,145 +348,102 @@ void IK(){
     text("Z-", 9, 20); 
     popMatrix();
     
-    
     //RUMUS IK KAKI KANAN---------------------------------------------------
-    R_Z=R_Z-21;
-    R_XZ=sqrt((R_X*R_X)+(R_Z*R_Z));
-    R_THETA_1a = acos(
-                        ( (R_XZ*R_XZ)+(R_L1*R_L1)-(R_L2*R_L2) )
-                                   /
-                             (2*R_XZ*R_L1)
-                             );
+    R_Z        = R_Z-21;
+    R_XZ       = TRIANGLE_HYPOTENUSE(R_X,R_Z);
+    R_THETA_1a = TRIANGLE_ANGLE( R_XZ, R_L1, R_L2 );
     R_THETA_1b = -atan2(R_Z,R_X);
     R_THETA_1  = (PI/2)+R_THETA_1a + R_THETA_1b; 
-    R_THETA_2a = acos(
-                        ( (R_L2*R_L2)+(R_L1*R_L1)-(R_XZ*R_XZ) )
-                                   /
-                             (2*R_L1*R_L2)
-                             );
+    R_THETA_2a = TRIANGLE_ANGLE( R_L2, R_L1, R_XZ );
     R_THETA_2  = PI-R_THETA_2a;
-    R_THETA_3a = acos(
-                        ( (R_L2*R_L1)+(R_XZ*R_XZ)-(R_L1*R_L1) )
-                                   /
-                             (2*R_L2*R_XZ)
-                             );
+    R_THETA_3a = TRIANGLE_ANGLE( R_L2, R_XZ, R_L1 );
     R_THETA_3b = R_THETA_1b;
     R_THETA_3  = (R_THETA_3a - R_THETA_3b)-radians(90.0);
-    
-    R_THETA_4=atan2(R_Y,R_Z);
-    R_THETA_5=R_THETA_4;
-    
+    R_THETA_4  = atan2(R_Y,R_Z);
+    R_THETA_5  = R_THETA_4;
+    //======================
     //Roll_Pitch_Yaw_Kaki_kanan
-    R_THETA_3=R_THETA_3+radians(R_Pitch);
-    R_THETA_5=R_THETA_5+radians(R_Roll);
-    
-    
+    R_THETA_3  = R_THETA_3+radians(R_Pitch);
+    R_THETA_5  = R_THETA_5+radians(R_Roll);
+    //======================
     //Manipulasi Penampakan Ukuran Link Kaki Kanan 
-    R_THETA_3c=atan2(R_Z,R_X);
-    R_THETA_3d=PI-(R_THETA_3c+R_THETA_3a);
-    R_THETA_1c=radians(90)-R_THETA_1;
-    R_L1a=sin(R_THETA_1c)*R_L1;
-    R_L2a=sin(R_THETA_3d)*R_L2;
-    R_a2=cos(radians(R_Roll))*R_a1;
-    R_a3=cos(radians(R_Pitch))*R_a2;
+    R_THETA_3c = atan2(R_Z,R_X);
+    R_THETA_3d = PI-(R_THETA_3c+R_THETA_3a);
+    R_THETA_1c = radians(90)-R_THETA_1;
+    R_L1a      = sin(R_THETA_1c)*R_L1;
+    R_L2a      = sin(R_THETA_3d)*R_L2;
+    R_a2       = cos(radians(R_Roll))*R_a1;
+    R_a3       = cos(radians(R_Pitch))*R_a2;
     
     //RUMUS IK KAKI KIRI------------------------
-    L_Z=L_Z-21;
-    L_XZ=sqrt((L_X*L_X)+(L_Z*L_Z));
-    L_THETA_1a = acos(
-                        ( (L_XZ*L_XZ)+(L_L1*L_L1)-(L_L2*L_L2) )
-                                   /
-                             (2*L_XZ*L_L1)
-                             );
+    L_Z        = L_Z-21;
+    L_XZ       = TRIANGLE_HYPOTENUSE(L_X,L_Z);
+    L_THETA_1a = TRIANGLE_ANGLE( L_XZ, L_L1, L_L2 );
     L_THETA_1b = -atan2(L_Z,L_X);
     L_THETA_1  = (PI/2)+L_THETA_1a + L_THETA_1b; 
-    L_THETA_2a = acos(
-                        ( (L_L2*L_L2)+(L_L1*L_L1)-(L_XZ*L_XZ) )
-                                   /
-                             (2*L_L1*L_L2)
-                             );
+    L_THETA_2a = TRIANGLE_ANGLE( L_L2, L_L1, L_XZ );
     L_THETA_2  = PI-L_THETA_2a;
-    L_THETA_3a = acos(
-                        ( (L_L2*R_L1)+(L_XZ*L_XZ)-(L_L1*L_L1) )
-                                   /
-                             (2*L_L2*L_XZ)
-                             );
+    L_THETA_3a = TRIANGLE_ANGLE( L_L2, L_XZ, L_L1 );
     L_THETA_3b = L_THETA_1b;
     L_THETA_3  = (L_THETA_3a - L_THETA_3b)-radians(90.0);
-    L_THETA_4=atan2(L_Y,L_Z);
-    L_THETA_5=L_THETA_4;
-    
+    L_THETA_4  = atan2(L_Y,L_Z);
+    L_THETA_5  = L_THETA_4;
+    //======================
     //Roll_Pitch_Yaw_Kaki_kanan
-    L_THETA_3=L_THETA_3+radians(L_Pitch);
-    L_THETA_5=L_THETA_5+radians(L_Roll);
-    
+    L_THETA_3  = L_THETA_3+radians(L_Pitch);
+    L_THETA_5  = L_THETA_5+radians(L_Roll);
+    //======================
     //Manipulasi Penampakan Ukuran Link Kaki Kiri
-    L_THETA_3c=atan2(L_Z,L_X);
-    L_THETA_3d=PI-(L_THETA_3c+L_THETA_3a);
-    L_THETA_1c=radians(90)-L_THETA_1;
-    L_L1a=sin(L_THETA_1c)*L_L1;
-    L_L2a=sin(L_THETA_3d)*L_L2;
-    L_L2a=sin(L_THETA_3d)*L_L2;
-    L_a2=cos(radians(L_Roll))*L_a1;
-    L_a3=cos(radians(L_Pitch))*L_a2;
+    L_THETA_3c = atan2(L_Z,L_X);
+    L_THETA_3d = PI-(L_THETA_3c+L_THETA_3a);
+    L_THETA_1c = radians(90)-L_THETA_1;
+    L_L1a      = sin(L_THETA_1c)*L_L1;
+    L_L2a      = sin(L_THETA_3d)*L_L2;
+    L_L2a      = sin(L_THETA_3d)*L_L2;
+    L_a2       = cos(radians(L_Roll))*L_a1;
+    L_a3       = cos(radians(L_Pitch))*L_a2;
     
     //Rumus IK Tangan Kiri------------------
-    L_ZY_Hand=sqrt((L_Z_Hand*L_Z_Hand)+(L_Y_Hand*L_Y_Hand));
-    L_THETA_8b=atan2(L_Y_Hand,L_Z_Hand);
-    L_THETA_8a=acos( ( (L_L1_Hand*L_L1_Hand) + (L_ZY_Hand*L_ZY_Hand) - (L_L2_Hand*L_L2_Hand) )
-                                            /
-                                 (2*L_L1_Hand*L_ZY_Hand)
-                                 );
-    L_THETA_8=-(L_THETA_8a+L_THETA_8b);
-    L_THETA_9a=acos( ( (L_L1_Hand*L_L1_Hand) + (L_L2_Hand*L_L2_Hand) - (L_ZY_Hand*L_ZY_Hand) )
-                                                        /
-                                               (2*L_L2_Hand*L_L1_Hand)
-                                               );
-    L_THETA_9=PI-L_THETA_9a;
-    L_THETA_7=-radians(90)+atan2(L_Z_Hand,L_X_Hand);
+    L_ZY_Hand  = TRIANGLE_HYPOTENUSE(L_Z_Hand,L_Y_Hand);
+    L_THETA_8b = atan2(L_Y_Hand,L_Z_Hand);
+    L_THETA_8a = TRIANGLE_ANGLE( L_L1_Hand, L_ZY_Hand, L_L2_Hand );
+    L_THETA_8  = -(L_THETA_8a+L_THETA_8b);
+    L_THETA_9a = TRIANGLE_ANGLE( L_L1_Hand, L_L2_Hand, L_ZY_Hand );
+    L_THETA_9  = PI-L_THETA_9a;
+    L_THETA_7  = -radians(90)+atan2(L_Z_Hand,L_X_Hand);
+    //======================
     //Manipulasi Penampakan Ukuran Link Tangan Kiri
-    L_THETA_9c=acos(( (L_L2_Hand*L_L2_Hand) + (L_ZY_Hand*L_ZY_Hand) - (L_L1_Hand*L_L1_Hand))
-                                          /
-                               (2*L_L2_Hand*L_ZY_Hand)
-                               );
-    L_THETA_9d=atan2(L_Z_Hand,L_Y_Hand);
-    L_THETA_9b=radians(90)-L_THETA_9c-L_THETA_9d;
-    L_THETA_8c=radians(90)-L_THETA_8;
-    L_L1a_Hand=sin(L_THETA_8c)*L_L1_Hand;
-    L_L2a_Hand=cos(L_THETA_9b)*L_L2_Hand;
-    L_THETA_7a=radians(90)-L_THETA_7;
-    L_THETA_7b=L_THETA_7a;
-    L_L1b_Hand=sin(L_THETA_7a)*L_L1a_Hand;
-    L_L2b_Hand=sin(L_THETA_7b)*L_L2a_Hand;
+    L_THETA_9c = TRIANGLE_ANGLE( L_L2_Hand, L_ZY_Hand, L_L1_Hand );
+    L_THETA_9d = atan2(L_Z_Hand,L_Y_Hand);
+    L_THETA_9b = radians(90)-L_THETA_9c-L_THETA_9d;
+    L_THETA_8c = radians(90)-L_THETA_8;
+    L_L1a_Hand = sin(L_THETA_8c)*L_L1_Hand;
+    L_L2a_Hand = cos(L_THETA_9b)*L_L2_Hand;
+    L_THETA_7a = radians(90)-L_THETA_7;
+    L_THETA_7b = L_THETA_7a;
+    L_L1b_Hand = sin(L_THETA_7a)*L_L1a_Hand;
+    L_L2b_Hand = sin(L_THETA_7b)*L_L2a_Hand;
     
     //Rumus IK Tangan Kanan
-    R_ZY_Hand=sqrt((R_Z_Hand*R_Z_Hand)+(R_Y_Hand*R_Y_Hand));
-    R_THETA_8b=atan2(R_Y_Hand,R_Z_Hand);
-    R_THETA_8a=acos( ( (R_L1_Hand*R_L1_Hand) + (R_ZY_Hand*R_ZY_Hand) - (R_L2_Hand*R_L2_Hand) )
-                                            /
-                                 (2*R_L1_Hand*R_ZY_Hand)
-                                 );
-    R_THETA_8=(R_THETA_8a+R_THETA_8b);
-    R_THETA_9a=acos( ( (R_L1_Hand*R_L1_Hand) + (R_L2_Hand*R_L2_Hand) - (R_ZY_Hand*R_ZY_Hand) )
-                                                        /
-                                               (2*R_L2_Hand*R_L1_Hand)
-                                               );
-    R_THETA_9=-(PI-R_THETA_9a);
-    R_THETA_7=-radians(90)+atan2(R_Z_Hand,R_X_Hand);
+    R_ZY_Hand  = TRIANGLE_HYPOTENUSE(R_Z_Hand,R_Y_Hand);
+    R_THETA_8b = atan2(R_Y_Hand,R_Z_Hand);
+    R_THETA_8a = TRIANGLE_ANGLE( R_L1_Hand, R_ZY_Hand, R_L2_Hand );
+    R_THETA_8  = (R_THETA_8a+R_THETA_8b);
+    R_THETA_9a = TRIANGLE_ANGLE( R_L1_Hand, R_L2_Hand, R_ZY_Hand );
+    R_THETA_9  = -(PI-R_THETA_9a);
+    R_THETA_7  = -radians(90)+atan2(R_Z_Hand,R_X_Hand);
+    //======================
     //Manipulasi Penampakan Ukuran Link Tangan Kanan
-    R_THETA_9c=acos(( (R_L2_Hand*R_L2_Hand) + (R_ZY_Hand*R_ZY_Hand) - (R_L1_Hand*R_L1_Hand))
-                                          /
-                               (2*R_L2_Hand*R_ZY_Hand)
-                               );
-    R_THETA_9d=atan2(R_Z_Hand,R_Y_Hand);
-    R_THETA_9b=radians(90)-R_THETA_9c-R_THETA_9d;
-    R_THETA_8c=radians(90)-R_THETA_8;
-    R_L1a_Hand=sin(R_THETA_8c)*R_L1_Hand;
-    R_L2a_Hand=cos(R_THETA_9b)*R_L2_Hand;
-    R_THETA_7a=radians(90)-R_THETA_7;
-    R_THETA_7b=R_THETA_7a;
-    R_L1b_Hand=sin(R_THETA_7a)*R_L1a_Hand;
-    R_L2b_Hand=sin(R_THETA_7b)*R_L2a_Hand;
+    R_THETA_9c = TRIANGLE_ANGLE( R_L2_Hand, R_ZY_Hand, R_L1_Hand );
+    R_THETA_9d = atan2(R_Z_Hand,R_Y_Hand);
+    R_THETA_9b = radians(90)-R_THETA_9c-R_THETA_9d;
+    R_THETA_8c = radians(90)-R_THETA_8;
+    R_L1a_Hand = sin(R_THETA_8c)*R_L1_Hand;
+    R_L2a_Hand = cos(R_THETA_9b)*R_L2_Hand;
+    R_THETA_7a = radians(90)-R_THETA_7;
+    R_THETA_7b = R_THETA_7a;
+    R_L1b_Hand = sin(R_THETA_7a)*R_L1a_Hand;
+    R_L2b_Hand = sin(R_THETA_7b)*R_L2a_Hand;
     
     //Tampilan sudut tiap servo-----------------------------------------------
     pushMatrix();
