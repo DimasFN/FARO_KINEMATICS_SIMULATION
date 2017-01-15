@@ -22,13 +22,14 @@ float TRIANGLE_LENGHT(float a, float b, float Theta_C){
 }
 
 void setup() {
-  size(1180, 620);
+  size(1350, 700);
   background(0);
 }
 
 void draw() {
   fill(0);
-  rect(0,0,1189,620);
+  noStroke();
+  rect(0,0,1350, 700);
     field();
      IK();
 }
@@ -41,12 +42,6 @@ void field(){
   stroke(0,250,0);
   rect(25, 25, 850, 500, 25); 
   
-  //KOTAK STAGE BUTTON
-  rectMode(CORNER); 
-  fill(0);
-  strokeWeight(1);
-  rect(955, 25, 200, 500, 25); 
- 
   //GARIS KOTAK HORIZONTAL
   for(float i=50;i<525;i+=25){
     strokeWeight(1);
@@ -63,6 +58,60 @@ void field(){
 }
 
 void IK(){
+  
+  //Pendulum Terbalik
+  pushMatrix();
+  translate(100,0);
+  //KOTAK Pendulum X
+  rectMode(CORNER); 
+  fill(0);
+  strokeWeight(1);
+  rect(975, 25, 230, 135, 10); 
+  
+  //KOTAK Pendulum Y
+  rectMode(CORNER); 
+  fill(0);
+  strokeWeight(1);
+  rect(975, 200, 230, 135, 10); 
+  
+  //Pendulum Terbalik X
+  pushMatrix();
+  float x=200/2;
+  strokeWeight(3);
+  translate(1090,150);
+  pushMatrix();
+  rotate(PI);
+  line(0,0,0,x);
+  strokeWeight(20);
+  stroke(255,32,12);
+  point(0,x);
+  popMatrix();
+  //TEKS PENDULUM X
+  fill(0, 202, 0);
+  textSize(12);
+  text("Inverted Penulum in X Axis", -80, 25); 
+  popMatrix();
+  
+  
+  //Pendulum Terbalik Y
+  pushMatrix();
+  float y=200/2;
+  strokeWeight(3);
+  translate(1090,325);
+  pushMatrix();
+  rotate(PI);
+  line(0,0,0,y);
+  strokeWeight(20);
+  stroke(100,32,12);
+  point(0,x);
+  popMatrix();
+  //TEKS PENDULUM Y
+  fill(0, 202, 0);
+  text("Inverted Pendulum in Y Axis", -80, 25);
+  popMatrix();
+  
+  popMatrix();
+  
     //Koordinat Kaki Kanan
     float R_X=55.0;
     float R_Y=50.0;
@@ -180,6 +229,8 @@ void IK(){
     float L_THETA_9d=0;
 
     //Text R_X_Leg
+    pushMatrix();
+    translate(0,10);
     textSize(10);
     fill(0, 202, 253);
     text("R_X_Leg", 40, 550);
@@ -209,6 +260,42 @@ void IK(){
     fill(0, 202, 253);
     text("L_Z_Leg", 290, 550);
     text(L_Z, 285, 565);
+    popMatrix(); 
+    
+    //Koordinat tangan
+    //Text R_X_Hand
+    pushMatrix();
+    translate(0,50);
+    textSize(10);
+    fill(0, 202, 253);
+    text("R_X_Hand", 40, 550);
+    text(R_X_Hand, 35, 565); 
+    //Text  R_Y_Hand
+    textSize(10);
+    fill(0, 202, 253);
+    text("R_Y_Hand", 90+20, 550); 
+    text(R_Y_Hand, 85+20, 565); 
+    //Text  R_Z_Hand
+    textSize(10);
+    fill(0, 202, 253);
+    text("R_Z_Hand", 140+30, 550);
+    text(R_Z_Hand, 135+30, 565);
+    //Text L_X_Hand
+    textSize(10);
+    fill(0, 202, 253);
+    text("L_X_Hand", 190+40, 550);
+    text(L_X, 185+40, 565); 
+    //Text L_Y_Hand 
+    textSize(10);
+    fill(0, 202, 253);
+    text("L_Y_Hand", 240+50, 550); 
+    text(L_Y_Hand, 235+50, 565); 
+    //Text L_Z_Hand
+    textSize(10);
+    fill(0, 202, 253);
+    text("L_Z_Hand", 290+60, 550);
+    text(L_Z_Hand, 285+60, 565);
+    popMatrix(); 
   
   //GARIS TENGAH STAGE
     strokeWeight(2);
@@ -276,77 +363,77 @@ void IK(){
     text("X", 220+425+210, 281); 
     
     //Tombol Inverse Kinematics-------------------------------------------------
-    //Tombol X+
-    pushMatrix();
-    fill(0,200,0);
-    stroke(0,200,0);
-    strokeWeight(1);
-    translate(350,550);
-    rect(0, 0, 25, 10, 5); 
-    //Teks X+
-    textSize(10);
-    fill(0, 202, 253);
-    text("X+", 9, 20);  
-    popMatrix();
+    ////Tombol X+
+    //pushMatrix();
+    //fill(0,200,0);
+    //stroke(0,200,0);
+    //strokeWeight(1);
+    //translate(350,550);
+    //rect(0, 0, 25, 10, 5); 
+    ////Teks X+
+    //textSize(10);
+    //fill(0, 202, 253);
+    //text("X+", 9, 20);  
+    //popMatrix();
     
-    //Tombol X-
-    pushMatrix();
-    fill(0,200,0);
-    strokeWeight(1);
-    stroke(0,200,0);
-    translate(380,550);
-    rect(0, 0, 25, 10, 5);
-    textSize(10);
-    fill(0, 202, 253);
-    text("X-", 9, 20);  
-    popMatrix();
+    ////Tombol X-
+    //pushMatrix();
+    //fill(0,200,0);
+    //strokeWeight(1);
+    //stroke(0,200,0);
+    //translate(380,550);
+    //rect(0, 0, 25, 10, 5);
+    //textSize(10);
+    //fill(0, 202, 253);
+    //text("X-", 9, 20);  
+    //popMatrix();
     
-    //Tombol Y+
-    pushMatrix();
-    fill(0,200,0);
-    strokeWeight(1);
-    stroke(0,200,0);
-    translate(420,550);
-    rect(0, 0, 25, 10, 5); 
-    textSize(10);
-    fill(0, 202, 253);
-    text("Y+", 9, 20); 
-    popMatrix();
+    ////Tombol Y+
+    //pushMatrix();
+    //fill(0,200,0);
+    //strokeWeight(1);
+    //stroke(0,200,0);
+    //translate(420,550);
+    //rect(0, 0, 25, 10, 5); 
+    //textSize(10);
+    //fill(0, 202, 253);
+    //text("Y+", 9, 20); 
+    //popMatrix();
     
-    //Tombol Y-
-    pushMatrix();
-    fill(0,200,0);
-    strokeWeight(1);
-    stroke(0,200,0);
-    translate(450,550);
-    rect(0, 0, 25, 10, 5); 
-    textSize(10);
-    fill(0, 202, 253);
-    text("Y-", 9, 20); 
-    popMatrix();
+    ////Tombol Y-
+    //pushMatrix();
+    //fill(0,200,0);
+    //strokeWeight(1);
+    //stroke(0,200,0);
+    //translate(450,550);
+    //rect(0, 0, 25, 10, 5); 
+    //textSize(10);
+    //fill(0, 202, 253);
+    //text("Y-", 9, 20); 
+    //popMatrix();
     
-    //Tombol Z+
-    pushMatrix();
-    fill(0,200,0);
-    strokeWeight(1);
-    stroke(0,200,0);
-    translate(490,550);
-    rect(0, 0, 25, 10, 5); 
-    textSize(10);
-    fill(0, 202, 253);
-    text("Z+", 9, 20); 
-    popMatrix();
-    //Tombol Z-
-    pushMatrix();
-    fill(0,200,0);
-    strokeWeight(1);
-    stroke(0,200,0);
-    translate(520,550);
-    rect(0, 0, 25, 10, 5);
-    textSize(10);
-    fill(0, 202, 253);
-    text("Z-", 9, 20); 
-    popMatrix();
+    ////Tombol Z+
+    //pushMatrix();
+    //fill(0,200,0);
+    //strokeWeight(1);
+    //stroke(0,200,0);
+    //translate(490,550);
+    //rect(0, 0, 25, 10, 5); 
+    //textSize(10);
+    //fill(0, 202, 253);
+    //text("Z+", 9, 20); 
+    //popMatrix();
+    ////Tombol Z-
+    //pushMatrix();
+    //fill(0,200,0);
+    //strokeWeight(1);
+    //stroke(0,200,0);
+    //translate(520,550);
+    //rect(0, 0, 25, 10, 5);
+    //textSize(10);
+    //fill(0, 202, 253);
+    //text("Z-", 9, 20); 
+    //popMatrix();
     
     //RUMUS IK KAKI KANAN---------------------------------------------------
     R_Z        = R_Z-21;
@@ -447,28 +534,38 @@ void IK(){
     
     //Tampilan sudut tiap servo-----------------------------------------------
     pushMatrix();
+    translate(55,0);
+    //Kotak Tempat Text data sendi
+    textSize(15);
+    fill(0, 202, 0);
+    text("Joint Angle", 875, 40);
+    rectMode(CORNER); 
+    fill(0);
+    strokeWeight(1);
+    rect(850, 50, 130, 400, 10);
+    //String data sendi
     textSize(10);
     fill(0, 202, 253);
     text("Q1:", 880, 80);
-    //text(R_THETA_9, 905, 80);
+    text(degrees(R_THETA_9), 905, 80);
     text("Q2:", 880, 100);
-    //text(L_THETA_9, 905, 100);
+    text(degrees(L_THETA_9), 905, 100);
     text("Q3:", 880, 120);
-    //text(R_THETA_8, 905, 120);
+    text(degrees(R_THETA_8), 905, 120);
     text("Q4:", 880, 140);
-    //text(L_THETA_8, 905, 140);
+    text(degrees(L_THETA_8), 905, 140);
     text("Q5:", 880, 160);
-    text(R_THETA_7, 905, 160);
+    text(degrees(R_THETA_7), 905, 160);
     text("Q6:", 880, 180);
-    text(L_THETA_7, 905, 180);
+    text(degrees(L_THETA_7), 905, 180);
     text("Q7:", 880, 200);
     //text(R_THETA_6, 905, 200);
     text("Q8:", 880, 220);
     //text(L_THETA_6, 905, 220);
     text("Q9:", 880, 240);
-    text(R_THETA_4, 905, 240);
+    text(degrees(R_THETA_4), 905, 240);
     text("Q10:", 880, 260);
-    text(L_THETA_4, 905, 260);
+    text(degrees(L_THETA_4), 905, 260);
     text("Q11:", 880, 280);
     text(degrees(R_THETA_1), 905, 280);
     text("Q12:", 880, 300);
@@ -482,9 +579,9 @@ void IK(){
     text("Q16:", 880, 380);
     text(degrees(L_THETA_3), 905, 380);
     text("Q17:", 880, 400);
-    text(R_THETA_5, 905, 400);
+    text(degrees(R_THETA_5), 905, 400);
     text("Q18:", 880, 420);
-    text(R_THETA_5, 905, 420);
+    text(degrees(R_THETA_5), 905, 420);
     popMatrix();
     
     //Body Links Sagittal=======================================================
@@ -493,29 +590,29 @@ void IK(){
     pushMatrix();
     translate(650,150);
     strokeWeight(3);
-    stroke(200,200,200);
+    stroke(100,100,100);
     translate(0,25);
     rotate(L_THETA_7);//---sudut----
     //L_SHOULDER
     line(0,0,0,25);
     strokeWeight(7);
-    stroke(200,20,200);
+    stroke(100,10,100);
     point(0, 0);
     //L_UPPER_ARM
     strokeWeight(3);
-    stroke(200,200,200);
+    stroke(100,100,100);
     translate(0,25);
     line(0,0,0,L_L1a_Hand);
     strokeWeight(7);
-    stroke(200,20,200);
+    stroke(100,10,100);
     point(0, 0);
     //L_LOWER_ARM
     strokeWeight(3);
-    stroke(200,200,200);
+    stroke(100,100,100);
     translate(0,L_L1a_Hand);
     line(0,0,0,L_L2a_Hand);
     strokeWeight(7);
-    stroke(200,20,200);
+    stroke(100,10,100);
     point(0, 0);
     popMatrix();
     
@@ -533,39 +630,39 @@ void IK(){
     pushMatrix();
     //L_Upper_Leg--------------------
     strokeWeight(3);
-    stroke(200,200,0);
+    stroke(100,100,0);
     translate(0, 100);
     rotate(-L_THETA_1);//----sudut----
     line(0,0,0, 78);
     strokeWeight(7);
-    stroke(200,20,200);
+    stroke(100,10,100);
     point(0, 0);
     //L_Lower_Leg--------------------
     strokeWeight(3);
-    stroke(200,200,0);
+    stroke(100,100,0);
     translate(0, 78);
     rotate(L_THETA_2);//----sudut----
     line(0,0,0, 78);
     strokeWeight(7);
-    stroke(200,20,200);
+    stroke(100,10,100);
     point(0, 0);
     //L_Ankle_Link-------------------
     strokeWeight(3);
-    stroke(200,200,0);
+    stroke(100,100,0);
     translate(0, 78);
     rotate(-L_THETA_3);//----sudut----
     line(0,0,0, L_a2);
     strokeWeight(7);
-    stroke(200,20,200);
+    stroke(100,10,100);
     point(0, 0);
     //L_Foot_Link-------------------
     strokeWeight(3);
-    stroke(200,200,0);
+    stroke(100,100,0);
     translate(0, L_a2);
     line(0,0, 30, 0);
     line(0,0, -30, 0);
     strokeWeight(7);
-    stroke(200,20,200);
+    stroke(100,10,100);
     point(0, 0);
     popMatrix();
     
@@ -802,6 +899,5 @@ void IK(){
     stroke(200,20,200);
     point(0, 0);
     popMatrix();
-    
     popMatrix();
 }
